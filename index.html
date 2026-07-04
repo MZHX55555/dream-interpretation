@@ -449,22 +449,33 @@ h2{font-size:clamp(1.5rem,4vw,2rem)}
     <button class="btn btn-ghost" id="btnNewDream">🔄 再解一个</button>
   </div>
 
-  <div class="lock-section animate-in delay-5">
-    <h3 style="text-align:center;font-family:var(--font-serif);margin-bottom:18px;font-size:18px">
-      🔒 解锁更多功能
-    </h3>
-    <div style="position:relative;min-height:120px">
-      <ul class="lock-features" style="text-align:left;max-width:320px;margin:0 auto">
+  <div class="lock-section animate-in delay-5" id="premiumSection">
+    <div id="premiumLocked">
+      <h3 style="text-align:center;font-family:var(--font-serif);margin-bottom:14px;font-size:18px">
+        🔒 解锁更多功能
+      </h3>
+      <ul class="lock-features" style="text-align:left;max-width:320px;margin:0 auto 18px">
         <li>✦ 无限次梦境解读</li>
-        <li>✦ 梦境日记（永久保存）</li>
-        <li>✦ 梦境趋势分析（发现规律）</li>
-        <li>✦ 导出 PDF 报告</li>
+        <li>✦ 梦境日记永久保存</li>
+        <li>✦ 梦境趋势分析</li>
       </ul>
-      <div class="lock-overlay">
-        <a href="https://afdian.com" target="_blank" rel="noopener" class="btn btn-gold" style="text-decoration:none">
-          ¥9.9/月 解锁全部功能
+      <div style="text-align:center;margin-bottom:18px">
+        <a href="YOUR_MBD_PAYMENT_URL" target="_blank" rel="noopener" class="btn btn-gold" style="text-decoration:none" id="btnPay">
+          ¥9.9/月 去付款
         </a>
       </div>
+      <div style="display:flex;gap:8px;justify-content:center;align-items:center">
+        <span style="font-size:13px;color:var(--text-muted)">付款后输入解锁码：</span>
+        <input type="text" id="unlockInput" placeholder="请输入解锁码" maxlength="20"
+          style="padding:8px 14px;border:1px solid var(--border-card);border-radius:8px;font-size:14px;width:160px;font-family:inherit;text-align:center">
+        <button class="btn btn-accent" id="btnUnlock" style="padding:8px 16px;font-size:13px">解锁</button>
+      </div>
+      <p id="unlockMsg" style="text-align:center;font-size:12px;color:var(--accent);margin-top:10px;min-height:18px"></p>
+    </div>
+    <div id="premiumUnlocked" style="display:none;text-align:center">
+      <div style="font-size:40px;margin-bottom:8px">✅</div>
+      <h3 style="font-family:var(--font-serif);font-size:18px;color:var(--accent)">已解锁全部功能</h3>
+      <p style="font-size:14px;color:var(--text-muted);margin-top:4px">无限解读 · 永久日记 · 趋势分析</p>
     </div>
   </div>
 
@@ -526,8 +537,11 @@ h2{font-size:clamp(1.5rem,4vw,2rem)}
 // —— 配置 ——
 const DEEPSEEK_API_KEY = 'sk-bdd5544cb49442f8a44cb759a9d1156e';
 const DEEPSEEK_API_URL = 'https://api.deepseek.com/v1/chat/completions';
-const MAX_FREE_PER_DAY = 3;
+const MAX_FREE_PER_DAY = 2;
 const MAX_JOURNAL_FREE = 3;
+const UNLOCK_CODE = 'DREAM2026';
+// 面包多审核通过后，替换下面这行链接
+const PAYMENT_URL = 'YOUR_MBD_PAYMENT_URL';
 
 const SYSTEM_PROMPT = `你是专业的梦境分析师，精通以下三个领域：
 1. 中国传统周公解梦
@@ -569,16 +583,77 @@ const journalEmpty = document.getElementById('journalEmpty');
 const modalBackdrop = document.getElementById('modalBackdrop');
 const modalContent = document.getElementById('modalContent');
 const toast = document.getElementById('toast');
+const btnUnlock = document.getElementById('btnUnlock');
+const btnPay = document.getElementById('btnPay');
 
 // —— 状态 ——
 let selectedMood = '';
 let lastInterpretation = null;
 let lastDreamText = '';
 
+// —— 付费状态 ——
+function isPremium(){
+  return localStorage.getItem('dream_premium') === 'true';
+}
+function setPremium(val){
+  if(val){
+    localStorage.setItem('dream_premium','true');
+  } else {
+    localStorage.removeItem('dream_premium');
+  }
+  updatePremiumUI();
+}
+function updatePremiumUI(){
+  var locked = document.getElementById('premiumLocked');
+  var unlocked = document.getElementById('premiumUnlocked');
+  var payBtn = document.getElementById('btnPay');
+  if(isPremium()){
+    if(locked) locked.style.display = 'none';
+    if(unlocked) unlocked.style.display = 'block';
+    if(payBtn) payBtn.style.display = 'none';
+    // 更新支付链接
+    if(payBtn && PAYMENT_URL !== 'YOUR_MBD_PAYMENT_URL'){
+      payBtn.href = PAYMENT_URL;
+    }
+  } else {
+    if(locked) locked.style.display = 'block';
+    if(unlocked) unlocked.style.display = 'none';
+    if(payBtn && PAYMENT_URL !== 'YOUR_MBD_PAYMENT_URL'){
+      payBtn.href = PAYMENT_URL;
+    }
+  }
+  updateRemainCount();
+}
+
+// —— 解锁码验证 ——
+function tryUnlock(){
+  var input = document.getElementById('unlockInput');
+  var msg = document.getElementById('unlockMsg');
+  var code = input.value.trim();
+  if(!code){ msg.textContent = '请输入解锁码'; return; }
+  if(code.toUpperCase() === UNLOCK_CODE.toUpperCase()){
+    setPremium(true);
+    msg.textContent = '';
+    input.value = '';
+    showToast('解锁成功！现在可以无限解读了 ✨');
+  } else {
+    msg.textContent = '解锁码不正确，请检查后重试';
+    input.value = '';
+  }
+}
+
 // —— 初始化 ——
 updateRemainCount();
+updatePremiumUI();
+if(btnPay && PAYMENT_URL !== 'YOUR_MBD_PAYMENT_URL'){ btnPay.href = PAYMENT_URL; }
 dreamInput.addEventListener('input',function(){
   charCount.textContent = dreamInput.value.length;
+});
+
+// —— 解锁按钮 ——
+btnUnlock.addEventListener('click',tryUnlock);
+document.getElementById('unlockInput').addEventListener('keydown',function(e){
+  if(e.key === 'Enter'){ tryUnlock(); }
 });
 
 // —— 情绪选择 ——
@@ -623,6 +698,12 @@ function incrementTodayCount(){
   localStorage.setItem(key,count+1);
 }
 function updateRemainCount(){
+  if(isPremium()){
+    remainCount.textContent = '无限';
+    btnInterpret.disabled = false;
+    btnInterpret.textContent = '🌙 开始解梦';
+    return;
+  }
   var used = getTodayCount();
   var remain = Math.max(0,MAX_FREE_PER_DAY - used);
   remainCount.textContent = remain;
@@ -638,7 +719,11 @@ function getJournal(){
   } catch(e){ return []; }
 }
 function saveJournal(entries){
-  // 如果是免费用户，只保留最近 MAX_JOURNAL_FREE 条
+  if(isPremium()){
+    localStorage.setItem('dream_journal',JSON.stringify(entries));
+    return;
+  }
+  // 免费用户只保留最近 MAX_JOURNAL_FREE 条
   var toSave = entries.slice(0,MAX_JOURNAL_FREE);
   localStorage.setItem('dream_journal',JSON.stringify(toSave));
 }
@@ -652,8 +737,8 @@ function addJournalEntry(dream,interpretation,mood,fullContent){
     fullContent: fullContent,
     mood: mood
   });
-  // 免费版最多保存3条
-  if(journal.length > MAX_JOURNAL_FREE){journal = journal.slice(0,MAX_JOURNAL_FREE)}
+  // 免费用户最多保存3条，付费用户不限
+  if(!isPremium() && journal.length > MAX_JOURNAL_FREE){journal = journal.slice(0,MAX_JOURNAL_FREE)}
   saveJournal(journal);
   return journal;
 }
@@ -790,7 +875,7 @@ btnInterpret.addEventListener('click',async function(){
     return;
   }
 
-  var remain = MAX_FREE_PER_DAY - getTodayCount();
+  var remain = isPremium() ? 1 : MAX_FREE_PER_DAY - getTodayCount();
   if(remain <= 0){
     showToast('今日免费次数已用完，明天再来吧 🌙');
     return;
@@ -834,7 +919,7 @@ document.getElementById('btnShare').addEventListener('click',function(){
   var text = '🌙 我的梦境解读\n\n' +
     '「'+ (lastDreamText.length>60?lastDreamText.slice(0,60)+'…':lastDreamText) +'」\n\n' +
     lastInterpretation.slice(0,200) + '…\n\n' +
-    '—— AI 解梦（免费体验：你的网址）';
+    '—— AI 解梦（免费体验：https://mzhx55555.github.io/dream-interpretation/）';
 
   if(navigator.share){
     navigator.share({title:'我的梦境解读',text:text}).catch(function(){});
