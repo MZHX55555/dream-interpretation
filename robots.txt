@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://MZHX55555.github.io/dream-interpretation/sitemap.xml

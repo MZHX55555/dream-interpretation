@@ -1,0 +1,1004 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="description" content="AI 梦境解读 — 从周公解梦、荣格心理学、生活关联三个维度，读懂你的梦。">
+<meta property="og:title" content="AI 解梦 — 读懂你的梦，就是读懂你自己">
+<meta property="og:description" content="三个维度深度解读：传统周公解梦、荣格心理学、生活关联分析。每天免费3次。">
+<meta property="og:type" content="website">
+<title>AI 解梦 — 读懂你的梦</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;600;700&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+/* ============================================
+   AI 解梦 — 梦幻晨曦主题
+   浅紫 · 薰衣草 · 温暖光点 · 呼吸感
+   ============================================ */
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+
+:root{
+  --bg-base: #FAF8FD;
+  --bg-surface: #FFFFFF;
+  --bg-elevated: #F5F2FA;
+  --bg-card: rgba(255,255,255,0.85);
+  --accent: #7C6FF8;
+  --accent-hover: #9488FF;
+  --accent-light: rgba(124,111,248,0.08);
+  --accent-glow: rgba(124,111,248,0.15);
+  --accent-border: rgba(124,111,248,0.35);
+  --gold: #B8943E;
+  --gold-hover: #C9A850;
+  --gold-light: rgba(184,148,62,0.08);
+  --gold-glow: rgba(184,148,62,0.15);
+  --text-primary: #1E1E2A;
+  --text-secondary: #5A5A6E;
+  --text-muted: #9A9AA8;
+  --border-subtle: rgba(0,0,0,0.06);
+  --border-card: rgba(0,0,0,0.10);
+  --shadow-sm: 0 2px 12px rgba(124,111,248,0.04);
+  --shadow-md: 0 6px 24px rgba(124,111,248,0.06);
+  --shadow-lg: 0 12px 40px rgba(124,111,248,0.08);
+  --font-serif: 'Playfair Display','Noto Serif SC','STSong','Songti SC',serif;
+  --font-sans: 'Inter','PingFang SC','Microsoft YaHei','Hiragino Sans GB',sans-serif;
+  --transition-fast: 0.2s ease;
+  --transition-smooth: 0.4s cubic-bezier(0.4,0,0.2,1);
+  --container-max: 720px;
+}
+
+body{
+  background:
+    radial-gradient(ellipse 60% 50% at 10% 0%, rgba(180,160,230,0.18) 0%, transparent 55%),
+    radial-gradient(ellipse 50% 50% at 90% 100%, rgba(160,180,220,0.18) 0%, transparent 55%),
+    radial-gradient(ellipse 50% 40% at 50% 50%, rgba(200,180,220,0.10) 0%, transparent 60%),
+    linear-gradient(175deg, #FAF8FD 0%, #F5F2FA 30%, #F3F1F8 60%, #F8F6FB 100%);
+  background-attachment:fixed;
+  min-height:100vh;
+  color:var(--text-primary);
+  font-family:var(--font-sans);
+  font-weight:400;
+  line-height:1.7;
+  -webkit-font-smoothing:antialiased;
+  position:relative;
+}
+
+body::before{
+  content:'';position:fixed;top:0;left:0;right:0;bottom:0;pointer-events:none;z-index:0;
+  background:
+    radial-gradient(1px 1px at 15% 10%, rgba(140,120,200,0.12), transparent),
+    radial-gradient(1px 1px at 65% 18%, rgba(160,140,210,0.10), transparent),
+    radial-gradient(1px 1px at 45% 65%, rgba(120,150,200,0.10), transparent),
+    radial-gradient(1px 1px at 25% 80%, rgba(150,120,190,0.08), transparent),
+    radial-gradient(1px 1px at 75% 55%, rgba(130,140,180,0.08), transparent),
+    radial-gradient(1px 1px at 55% 30%, rgba(180,160,200,0.08), transparent),
+    radial-gradient(2px 2px at 35% 45%, rgba(150,140,190,0.06), transparent);
+  animation:gentleShift 12s ease-in-out infinite alternate;
+}
+@keyframes gentleShift{0%{opacity:.5}50%{opacity:.9}100%{opacity:.6}}
+body>*{position:relative;z-index:1}
+
+/* === Typography === */
+.serif{font-family:var(--font-serif);font-weight:400}
+h1,h2,h3,.headline{font-family:var(--font-serif);font-weight:400;line-height:1.15}
+h1{font-size:clamp(2rem,6vw,3.2rem)}
+h2{font-size:clamp(1.5rem,4vw,2rem)}
+
+/* === Sections (SPA pattern) === */
+.section{display:none}
+.section.active{display:flex;flex-direction:column;align-items:center;justify-content:center}
+#section-hero.active{min-height:100vh;padding:60px 20px}
+#section-results.active{padding:60px 20px 80px;max-width:var(--container-max);margin:0 auto}
+#section-journal.active{padding:60px 20px;max-width:var(--container-max);margin:0 auto;display:block}
+
+/* === Container === */
+.container{width:100%;max-width:var(--container-max);margin:0 auto}
+
+/* === Buttons === */
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:8px;
+  padding:13px 32px;border-radius:50px;border:none;
+  font-size:15px;font-weight:500;letter-spacing:0.04em;
+  cursor:pointer;font-family:inherit;transition:var(--transition-fast);
+}
+.btn-accent{
+  background:linear-gradient(135deg,var(--accent) 0%,var(--accent-hover) 100%);
+  color:#fff;
+  box-shadow:0 4px 16px var(--accent-glow);
+}
+.btn-accent:hover{transform:translateY(-1px);box-shadow:0 6px 24px var(--accent-glow)}
+.btn-accent:active{transform:translateY(0)}
+.btn-accent:disabled{opacity:.4;cursor:not-allowed;transform:none}
+.btn-gold{
+  background:linear-gradient(135deg,var(--gold) 0%,var(--gold-hover) 100%);
+  color:#fff;
+  box-shadow:0 4px 16px var(--gold-glow);
+}
+.btn-gold:hover{transform:translateY(-1px);box-shadow:0 6px 24px var(--gold-glow)}
+.btn-ghost{
+  background:transparent;color:var(--text-secondary);
+  border:1px solid var(--border-card);
+}
+.btn-ghost:hover{border-color:var(--accent-border);color:var(--accent)}
+.btn-large{padding:16px 40px;font-size:16px}
+.btn-full{width:100%}
+
+/* === Card === */
+.card{
+  background:var(--bg-surface);
+  border:1px solid var(--border-subtle);
+  border-radius:12px;
+  padding:24px 22px;
+  box-shadow:var(--shadow-sm);
+  position:relative;overflow:hidden;
+}
+.card::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:1px;
+  background:linear-gradient(90deg,transparent,var(--accent-border),transparent);
+}
+.card-title{
+  font-size:14px;color:var(--accent);letter-spacing:4px;font-weight:600;
+  margin-bottom:16px;text-align:center;
+}
+
+/* === Hero Section === */
+.hero-header{text-align:center;margin-bottom:40px}
+.hero-header .emblem{
+  display:inline-block;font-size:48px;margin-bottom:12px;
+  animation:emblemFloat 6s ease-in-out infinite;
+}
+@keyframes emblemFloat{0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)}}
+.hero-header h1{
+  font-size:clamp(2.2rem,7vw,3.8rem);
+  font-weight:700;letter-spacing:8px;
+  background:linear-gradient(135deg,var(--accent) 0%,#b8a0e0 50%,var(--accent-hover) 100%);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  background-clip:text;
+  margin-bottom:8px;
+}
+.hero-header .tagline{
+  font-size:15px;color:var(--text-muted);letter-spacing:4px;
+}
+
+/* === Dream Input === */
+.dream-input-card{
+  width:100%;background:var(--bg-surface);
+  border:1px solid var(--border-card);border-radius:16px;
+  padding:6px;
+  box-shadow:var(--shadow-md);
+  transition:box-shadow .3s;
+}
+.dream-input-card:focus-within{
+  box-shadow:var(--shadow-lg),0 0 0 3px var(--accent-light);
+  border-color:var(--accent-border);
+}
+.dream-input-card textarea{
+  width:100%;min-height:160px;padding:20px 22px 16px;
+  border:none;outline:none;resize:vertical;
+  font-family:var(--font-sans);font-size:16px;line-height:1.8;
+  color:var(--text-primary);background:transparent;
+}
+.dream-input-card textarea::placeholder{color:var(--text-muted);opacity:.6}
+.dream-input-card .input-footer{
+  display:flex;align-items:center;justify-content:space-between;
+  padding:8px 18px 14px;flex-wrap:wrap;gap:10px;
+}
+.char-count{font-size:12px;color:var(--text-muted)}
+
+/* === Mood Selector === */
+.mood-selector{display:flex;gap:6px;flex-wrap:wrap;margin-bottom:20px;justify-content:center}
+.mood-chip{
+  padding:8px 16px;border-radius:20px;border:1px solid var(--border-card);
+  background:var(--bg-surface);color:var(--text-secondary);
+  font-size:13px;cursor:pointer;font-family:inherit;
+  transition:all var(--transition-fast);
+}
+.mood-chip:hover{border-color:var(--accent-border)}
+.mood-chip.selected{
+  border-color:var(--accent);background:var(--accent-light);
+  color:var(--accent);box-shadow:0 0 12px var(--accent-glow);
+}
+
+/* === Remaining Count === */
+.remainder{text-align:center;margin:16px 0 8px;font-size:13px;color:var(--text-muted)}
+.remainder span{color:var(--accent);font-weight:600}
+
+/* === Journal Link === */
+.journal-link{
+  text-align:center;margin-top:28px;
+}
+.journal-link a{
+  color:var(--text-muted);text-decoration:none;font-size:14px;
+  border-bottom:1px dashed var(--border-card);padding-bottom:2px;
+  transition:all var(--transition-fast);
+}
+.journal-link a:hover{color:var(--accent);border-color:var(--accent-border)}
+
+/* === Loading State === */
+.loading-overlay{
+  display:none;flex-direction:column;align-items:center;justify-content:center;
+  padding:80px 20px;text-align:center;
+}
+.loading-overlay.active{display:flex}
+.dream-bubble{
+  width:64px;height:64px;border-radius:50%;
+  background:linear-gradient(135deg,var(--accent-light),var(--accent-glow));
+  position:relative;
+  animation:bubblePulse 2s ease-in-out infinite;
+}
+.dream-bubble::after{
+  content:'';position:absolute;top:50%;left:50%;
+  width:40px;height:40px;border-radius:50%;
+  background:linear-gradient(135deg,var(--accent),var(--accent-hover));
+  transform:translate(-50%,-50%);
+  animation:bubbleInner 2s ease-in-out infinite;
+}
+@keyframes bubblePulse{0%,100%{transform:scale(1);opacity:.8}50%{transform:scale(1.15);opacity:1}}
+@keyframes bubbleInner{0%,100%{transform:translate(-50%,-50%) scale(1)}50%{transform:translate(-50%,-50%) scale(.85)}}
+.loading-text{margin-top:24px;font-size:15px;color:var(--text-muted);letter-spacing:2px}
+
+/* === Results Section === */
+.result-header{text-align:center;margin-bottom:32px}
+.result-header h2{color:var(--text-primary);margin-bottom:4px}
+.result-header .dream-snippet{
+  color:var(--text-muted);font-size:14px;max-width:480px;margin:0 auto;
+  overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
+}
+
+/* === Three-Column Interpretation === */
+.interpret-grid{
+  width:100%;display:grid;
+  grid-template-columns:1fr;
+  gap:16px;margin-bottom:28px;
+}
+@media(min-width:768px){
+  .interpret-grid{grid-template-columns:1fr 1fr 1fr}
+}
+.interpret-card{
+  background:var(--bg-surface);
+  border:1px solid var(--border-subtle);border-radius:12px;
+  padding:22px 20px;box-shadow:var(--shadow-sm);
+  position:relative;overflow:hidden;
+}
+.interpret-card::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:1px;
+  background:linear-gradient(90deg,transparent,var(--accent-border),transparent);
+}
+.interpret-card .ic-icon{font-size:28px;margin-bottom:10px}
+.interpret-card .ic-title{
+  font-family:var(--font-serif);font-size:18px;font-weight:600;
+  color:var(--text-primary);margin-bottom:12px;
+}
+.interpret-card .ic-body{
+  font-size:14px;line-height:1.8;color:var(--text-secondary);
+}
+
+/* === Share Section === */
+.share-bar{
+  width:100%;display:flex;gap:10px;justify-content:center;flex-wrap:wrap;
+  margin-bottom:40px;
+}
+
+/* === Lock Overlay === */
+.lock-section{
+  width:100%;position:relative;
+  background:var(--bg-surface);
+  border:1px solid var(--border-subtle);border-radius:12px;
+  padding:24px;box-shadow:var(--shadow-sm);
+}
+.lock-overlay{
+  position:absolute;bottom:0;left:0;right:0;height:55%;
+  background:linear-gradient(to bottom,transparent 0%,var(--bg-surface) 50%,var(--bg-surface) 100%);
+  display:flex;flex-direction:column;align-items:center;justify-content:flex-end;
+  padding-bottom:20px;border-radius:0 0 12px 12px;
+}
+.lock-features{
+  list-style:none;text-align:center;margin-bottom:16px;font-size:14px;color:var(--text-secondary);
+}
+.lock-features li{padding:3px 0}
+
+/* === Journal Section === */
+.journal-header{display:flex;align-items:center;gap:16px;margin-bottom:28px}
+.journal-header h2{flex:1;margin:0}
+.journal-stats{
+  display:flex;gap:20px;margin-bottom:28px;flex-wrap:wrap;
+}
+.stat-card{
+  flex:1;min-width:120px;background:var(--bg-surface);
+  border:1px solid var(--border-subtle);border-radius:10px;
+  padding:18px 16px;text-align:center;box-shadow:var(--shadow-sm);
+}
+.stat-card .stat-num{font-size:2rem;font-weight:700;color:var(--accent)}
+.stat-card .stat-label{font-size:12px;color:var(--text-muted);margin-top:4px}
+.journal-list{display:flex;flex-direction:column;gap:12px}
+.journal-entry{
+  background:var(--bg-surface);border:1px solid var(--border-subtle);
+  border-radius:10px;padding:18px 20px;box-shadow:var(--shadow-sm);
+  cursor:pointer;transition:all var(--transition-fast);
+}
+.journal-entry:hover{border-color:var(--accent-border);box-shadow:var(--shadow-md)}
+.journal-entry .je-date{font-size:12px;color:var(--text-muted);margin-bottom:6px}
+.journal-entry .je-preview{font-size:14px;color:var(--text-secondary);overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.journal-entry .je-mood{display:inline-block;padding:2px 10px;border-radius:10px;font-size:12px;margin-top:6px;background:var(--accent-light);color:var(--accent)}
+
+/* === Journal Detail Modal === */
+.modal-backdrop{
+  display:none;position:fixed;inset:0;z-index:100;
+  background:rgba(30,30,42,.4);backdrop-filter:blur(4px);
+  align-items:center;justify-content:center;padding:20px;
+}
+.modal-backdrop.active{display:flex}
+.modal-content{
+  background:var(--bg-surface);border-radius:16px;
+  max-width:600px;width:100%;max-height:85vh;overflow-y:auto;
+  padding:28px 24px;box-shadow:var(--shadow-lg);
+  animation:modalIn .3s ease-out;
+}
+@keyframes modalIn{from{opacity:0;transform:translateY(20px) scale(.96)}to{opacity:1;transform:translateY(0) scale(1)}}
+.modal-content .interpret-card{margin-bottom:14px}
+
+/* === Toast === */
+#toast{
+  position:fixed;bottom:40px;left:50%;transform:translateX(-50%) translateY(100px);
+  background:var(--text-primary);color:#fff;
+  padding:12px 28px;border-radius:50px;font-size:14px;
+  z-index:200;pointer-events:none;
+  transition:transform .4s cubic-bezier(.16,1,.3,1);
+  white-space:nowrap;max-width:90vw;overflow:hidden;text-overflow:ellipsis;
+}
+#toast.show{transform:translateX(-50%) translateY(0)}
+
+/* === Back Button === */
+.btn-back{
+  display:inline-flex;align-items:center;gap:6px;
+  background:none;border:none;color:var(--text-secondary);
+  font-size:14px;cursor:pointer;font-family:inherit;padding:8px 0;
+  transition:color var(--transition-fast);
+}
+.btn-back::before{content:'←'}
+.btn-back:hover{color:var(--accent)}
+
+/* === Empty State === */
+.empty-state{text-align:center;padding:60px 20px;color:var(--text-muted)}
+.empty-state .empty-icon{font-size:40px;margin-bottom:14px}
+.empty-state p{font-size:14px}
+
+/* === Animations === */
+@keyframes fadeInUp{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:translateY(0)}}
+.animate-in{animation:fadeInUp .55s cubic-bezier(.16,1,.3,1) both}
+.delay-1{animation-delay:.04s}
+.delay-2{animation-delay:.12s}
+.delay-3{animation-delay:.24s}
+.delay-4{animation-delay:.38s}
+.delay-5{animation-delay:.50s}
+.delay-6{animation-delay:.62s}
+
+/* === Mobile Tweaks === */
+@media(max-width:380px){
+  .hero-header h1{letter-spacing:4px}
+  .interpret-card{padding:16px 14px}
+  .btn-large{padding:14px 28px;font-size:14px}
+  .dream-input-card textarea{min-height:120px;font-size:15px}
+}
+</style>
+</head>
+<body>
+
+<!-- ========== Section Hero: 梦境输入 ========== -->
+<section id="section-hero" class="section active">
+  <div class="container">
+    <div class="hero-header animate-in delay-1">
+      <div class="emblem">🌙</div>
+      <h1>AI 解梦</h1>
+      <p class="tagline">读懂你的梦，就是读懂你自己</p>
+    </div>
+
+    <div class="dream-input-card animate-in delay-2" style="margin-bottom:16px">
+      <textarea id="dreamInput" placeholder="描述你昨晚的梦……&#10;&#10;比如：梦见自己在飞，下面是一片海，飞着飞着突然往下坠……&#10;&#10;越详细，解读越精准" maxlength="2000"></textarea>
+      <div class="input-footer">
+        <span class="char-count"><span id="charCount">0</span> / 2000</span>
+      </div>
+    </div>
+
+    <div class="mood-selector animate-in delay-3" id="moodSelector">
+      <span class="mood-chip" data-mood="困惑">😕 困惑</span>
+      <span class="mood-chip" data-mood="恐惧">😨 恐惧</span>
+      <span class="mood-chip" data-mood="开心">😊 开心</span>
+      <span class="mood-chip" data-mood="悲伤">😢 悲伤</span>
+      <span class="mood-chip" data-mood="奇妙">🤩 奇妙</span>
+      <span class="mood-chip" data-mood="焦虑">😰 焦虑</span>
+    </div>
+
+    <div class="remainder animate-in delay-3">
+      今日剩余 <span id="remainCount">3</span> 次免费解读
+    </div>
+
+    <div class="animate-in delay-4" style="text-align:center;margin-top:16px">
+      <button class="btn btn-accent btn-large" id="btnInterpret" style="min-width:200px">
+        🌙 开始解梦
+      </button>
+    </div>
+
+    <div class="journal-link animate-in delay-5">
+      <a href="#" id="linkToJournal">📓 查看过往解读记录</a>
+    </div>
+  </div>
+</section>
+
+<!-- ========== Loading State ========== -->
+<div class="loading-overlay" id="loadingOverlay">
+  <div class="dream-bubble"></div>
+  <p class="loading-text">正在解读你的梦境……</p>
+</div>
+
+<!-- ========== Section Results: 解读结果 ========== -->
+<section id="section-results" class="section">
+  <div class="result-header animate-in delay-1">
+    <h2>你的梦境解读</h2>
+    <p class="dream-snippet" id="dreamSnippet"></p>
+  </div>
+
+  <div class="interpret-grid" id="interpretGrid">
+    <!-- 动态填充 -->
+  </div>
+
+  <div class="share-bar animate-in delay-4">
+    <button class="btn btn-accent" id="btnShare">📤 分享解读</button>
+    <button class="btn btn-ghost" id="btnCopy">📋 复制文字</button>
+    <button class="btn btn-ghost" id="btnNewDream">🔄 再解一个</button>
+  </div>
+
+  <div class="lock-section animate-in delay-5">
+    <h3 style="text-align:center;font-family:var(--font-serif);margin-bottom:18px;font-size:18px">
+      🔒 解锁更多功能
+    </h3>
+    <div style="position:relative;min-height:120px">
+      <ul class="lock-features" style="text-align:left;max-width:320px;margin:0 auto">
+        <li>✦ 无限次梦境解读</li>
+        <li>✦ 梦境日记（永久保存）</li>
+        <li>✦ 梦境趋势分析（发现规律）</li>
+        <li>✦ 导出 PDF 报告</li>
+      </ul>
+      <div class="lock-overlay">
+        <a href="https://afdian.com" target="_blank" rel="noopener" class="btn btn-gold" style="text-decoration:none">
+          ¥9.9/月 解锁全部功能
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <div style="text-align:center;margin-top:20px">
+    <a href="#" id="linkToJournal2" style="color:var(--text-muted);text-decoration:none;font-size:14px;border-bottom:1px dashed var(--border-card)">
+      📓 查看过往解读记录
+    </a>
+  </div>
+</section>
+
+<!-- ========== Section Journal: 梦境日记 ========== -->
+<section id="section-journal" class="section">
+  <div class="journal-header">
+    <button class="btn-back" id="btnBackToHero">返回</button>
+    <h2>📓 梦境日记</h2>
+  </div>
+
+  <div class="journal-stats" id="journalStats">
+    <div class="stat-card">
+      <div class="stat-num" id="statTotal">0</div>
+      <div class="stat-label">总记录</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-num" id="statMonth">0</div>
+      <div class="stat-label">本月记录</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-num" id="statTopMood">—</div>
+      <div class="stat-label">最常见情绪</div>
+    </div>
+  </div>
+
+  <div class="journal-list" id="journalList">
+    <!-- 动态填充 -->
+  </div>
+
+  <div class="empty-state" id="journalEmpty">
+    <div class="empty-icon">💤</div>
+    <p>还没有解读记录</p>
+    <p style="font-size:13px;margin-top:4px">去做一次梦境解读吧～</p>
+  </div>
+</section>
+
+<!-- ========== Journal Detail Modal ========== -->
+<div class="modal-backdrop" id="modalBackdrop">
+  <div class="modal-content" id="modalContent">
+    <!-- 动态填充 -->
+  </div>
+</div>
+
+<!-- ========== Toast ========== -->
+<div id="toast"></div>
+
+<script>
+// ============================================
+//  AI 解梦 — JavaScript
+// ============================================
+
+// —— 配置 ——
+const DEEPSEEK_API_KEY = 'sk-bdd5544cb49442f8a44cb759a9d1156e';
+const DEEPSEEK_API_URL = 'https://api.deepseek.com/v1/chat/completions';
+const MAX_FREE_PER_DAY = 3;
+const MAX_JOURNAL_FREE = 3;
+
+const SYSTEM_PROMPT = `你是专业的梦境分析师，精通以下三个领域：
+1. 中国传统周公解梦
+2. 荣格与弗洛伊德的心理学梦的解析理论
+3. 梦境与日常生活、情绪状态的关联分析
+
+当用户告诉你他们的梦境后，请严格按照以下格式输出，用三个"###"标题分隔三个部分：
+
+### 🔮 传统视角（周公解梦）
+[从中国传统解梦角度分析梦中关键象征物/场景的含义，引用经典解梦说法]
+
+### 🧠 心理学视角
+[从荣格集体无意识/弗洛伊德潜意识角度，分析梦境反映的内心状态、潜在欲望或未处理的情绪]
+
+### 💡 生活关联
+[结合梦境内容，分析可能与用户最近的生活、情绪、压力或人际关系有何关联，给出温和的建议。这部分要让用户感到被理解和被关怀]
+
+注意事项：
+- 语调温暖、有温度，像一位智慧而亲切的朋友在聊天
+- 避免绝对化的断言（如"这一定意味着..."），多使用"可能""或许""有时候这代表..."
+- 如果梦境涉及创伤性或令人不安的内容，请温和地建议寻求专业心理咨询
+- 每个部分150-400字，总共600-1200字
+- 不要输出任何开场白或结束语，直接从"### 🔮 传统视角（周公解梦）"开始`;
+
+// —— DOM 引用 ——
+const sectionHero = document.getElementById('section-hero');
+const sectionResults = document.getElementById('section-results');
+const sectionJournal = document.getElementById('section-journal');
+const loadingOverlay = document.getElementById('loadingOverlay');
+const dreamInput = document.getElementById('dreamInput');
+const charCount = document.getElementById('charCount');
+const btnInterpret = document.getElementById('btnInterpret');
+const moodSelector = document.getElementById('moodSelector');
+const remainCount = document.getElementById('remainCount');
+const interpretGrid = document.getElementById('interpretGrid');
+const dreamSnippet = document.getElementById('dreamSnippet');
+const journalList = document.getElementById('journalList');
+const journalEmpty = document.getElementById('journalEmpty');
+const modalBackdrop = document.getElementById('modalBackdrop');
+const modalContent = document.getElementById('modalContent');
+const toast = document.getElementById('toast');
+
+// —— 状态 ——
+let selectedMood = '';
+let lastInterpretation = null;
+let lastDreamText = '';
+
+// —— 初始化 ——
+updateRemainCount();
+dreamInput.addEventListener('input',function(){
+  charCount.textContent = dreamInput.value.length;
+});
+
+// —— 情绪选择 ——
+moodSelector.addEventListener('click',function(e){
+  var chip = e.target.closest('.mood-chip');
+  if(!chip) return;
+  var wasSelected = chip.classList.contains('selected');
+  moodSelector.querySelectorAll('.mood-chip').forEach(function(c){c.classList.remove('selected')});
+  if(!wasSelected){ chip.classList.add('selected');selectedMood = chip.dataset.mood; }
+  else { selectedMood = ''; }
+});
+
+// —— 区域切换 ——
+function showSection(section){
+  [sectionHero,sectionResults,sectionJournal,loadingOverlay].forEach(function(s){
+    s.classList.remove('active');
+  });
+  section.classList.add('active');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+// —— Toast ——
+var toastTimer;
+function showToast(msg){
+  clearTimeout(toastTimer);
+  toast.textContent = msg;
+  toast.classList.add('show');
+  toastTimer = setTimeout(function(){toast.classList.remove('show')},2200);
+}
+
+// —— 剩余次数 ——
+function getTodayKey(){ return 'dream_today_' + new Date().toISOString().slice(0,10); }
+function getTodayCount(){
+  var key = getTodayKey();
+  var stored = localStorage.getItem(key);
+  if(!stored) return 0;
+  return parseInt(stored,10);
+}
+function incrementTodayCount(){
+  var key = getTodayKey();
+  var count = getTodayCount();
+  localStorage.setItem(key,count+1);
+}
+function updateRemainCount(){
+  var used = getTodayCount();
+  var remain = Math.max(0,MAX_FREE_PER_DAY - used);
+  remainCount.textContent = remain;
+  if(remain <= 0){ btnInterpret.disabled = true;btnInterpret.textContent = '今日次数已用完，明天再来吧'; }
+  else { btnInterpret.disabled = false;btnInterpret.textContent = '🌙 开始解梦'; }
+}
+
+// —— 梦境日记存储 ——
+function getJournal(){
+  try {
+    var raw = localStorage.getItem('dream_journal');
+    return raw ? JSON.parse(raw) : [];
+  } catch(e){ return []; }
+}
+function saveJournal(entries){
+  // 如果是免费用户，只保留最近 MAX_JOURNAL_FREE 条
+  var toSave = entries.slice(0,MAX_JOURNAL_FREE);
+  localStorage.setItem('dream_journal',JSON.stringify(toSave));
+}
+function addJournalEntry(dream,interpretation,mood,fullContent){
+  var journal = getJournal();
+  journal.unshift({
+    id: Date.now(),
+    date: new Date().toISOString(),
+    dream: dream,
+    interpretation: interpretation,
+    fullContent: fullContent,
+    mood: mood
+  });
+  // 免费版最多保存3条
+  if(journal.length > MAX_JOURNAL_FREE){journal = journal.slice(0,MAX_JOURNAL_FREE)}
+  saveJournal(journal);
+  return journal;
+}
+
+// —— 解析 AI 返回内容 ——
+function parseInterpretation(content){
+  var sections = [];
+  // 按 ### 分割
+  var parts = content.split(/###\s*/);
+  for(var i=0;i<parts.length;i++){
+    var part = parts[i].trim();
+    if(!part) continue;
+    // 第一个 ### 之前的内容跳过
+    var lines = part.split('\n');
+    var title = lines[0].trim();
+    var body = lines.slice(1).join('\n').trim();
+    // 去掉标题中可能残留的 ###
+    title = title.replace(/^###\s*/,'');
+    if(title && body){
+      sections.push({title:title, body:body});
+    }
+  }
+  return sections;
+}
+
+// —— 渲染解读结果 ——
+function renderResults(dream,content){
+  lastDreamText = dream;
+  lastInterpretation = content;
+
+  dreamSnippet.textContent = '「' + (dream.length > 60 ? dream.slice(0,60)+'…' : dream) + '」';
+
+  var sections = parseInterpretation(content);
+
+  // 如果 AI 返回格式不对（没按 ### 分），手动拆
+  if(sections.length === 0){
+    sections = [{title:'梦境解读', body:content}];
+  }
+
+  // 确保有三个 section，匹配我们的三栏布局
+  var defaultTitles = [
+    '🔮 传统视角（周公解梦）',
+    '🧠 心理学视角',
+    '💡 生活关联'
+  ];
+
+  // 如果返回多于3个，取前3个；如果少于3个，用已有内容补
+  var displaySections = [];
+  for(var i=0;i<3;i++){
+    if(i < sections.length){
+      displaySections.push(sections[i]);
+    }
+  }
+
+  var html = '';
+  for(var j=0;j<displaySections.length;j++){
+    var sec = displaySections[j];
+    var icon = '';
+    if(sec.title.indexOf('传统')>=0 || sec.title.indexOf('周公')>=0) icon = '🔮';
+    else if(sec.title.indexOf('心理')>=0) icon = '🧠';
+    else if(sec.title.indexOf('生活')>=0 || sec.title.indexOf('关联')>=0) icon = '💡';
+    else icon = '✨';
+
+    html += '<div class="interpret-card animate-in delay-'+(j+2)+'">' +
+      '<div class="ic-icon">'+icon+'</div>' +
+      '<div class="ic-title">'+escapeHtml(sec.title)+'</div>' +
+      '<div class="ic-body">'+formatContent(sec.body)+'</div>' +
+    '</div>';
+  }
+
+  interpretGrid.innerHTML = html;
+}
+
+function escapeHtml(str){
+  var div = document.createElement('div');
+  div.textContent = str;
+  return div.innerHTML;
+}
+
+function formatContent(text){
+  // 简单换行转段落
+  return text
+    .replace(/&/g,'&amp;')
+    .replace(/</g,'&lt;')
+    .replace(/>/g,'&gt;')
+    .replace(/\n\n/g,'</p><p>')
+    .replace(/\n/g,'<br>')
+    .replace(/<\/p><p>/g,function(){return '</p><p>'})
+    ;
+}
+
+// —— 调用 DeepSeek API（直连） ——
+async function interpretDream(dream,mood){
+  if(DEEPSEEK_API_KEY === 'YOUR_DEEPSEEK_API_KEY'){
+    throw new Error('请先在代码中设置你的 DeepSeek API Key');
+  }
+
+  var userMessage = dream;
+  if(mood){ userMessage = '【梦境情绪：'+mood+'】\n'+dream; }
+
+  var resp = await fetch(DEEPSEEK_API_URL,{
+    method:'POST',
+    headers:{
+      'Content-Type':'application/json',
+      'Authorization':'Bearer ' + DEEPSEEK_API_KEY
+    },
+    body: JSON.stringify({
+      model: 'deepseek-chat',
+      messages: [
+        { role: 'system', content: SYSTEM_PROMPT },
+        { role: 'user', content: userMessage }
+      ],
+      temperature: 0.8,
+      max_tokens: 2000
+    })
+  });
+
+  if(!resp.ok){
+    var errData = await resp.json().catch(function(){return {} });
+    throw new Error(errData.error?.message || 'API 请求失败('+resp.status+')');
+  }
+
+  var data = await resp.json();
+  if(data.error){ throw new Error(data.error.message || 'API 错误'); }
+  return data.choices?.[0]?.message?.content || '';
+}
+
+// —— 开始解梦 ——
+btnInterpret.addEventListener('click',async function(){
+  var dream = dreamInput.value.trim();
+  if(dream.length < 5){
+    showToast('请至少输入5个字描述你的梦境');
+    dreamInput.focus();
+    return;
+  }
+
+  var remain = MAX_FREE_PER_DAY - getTodayCount();
+  if(remain <= 0){
+    showToast('今日免费次数已用完，明天再来吧 🌙');
+    return;
+  }
+
+  // 进入 loading
+  showSection(loadingOverlay);
+  btnInterpret.disabled = true;
+
+  try {
+    var content = await interpretDream(dream,selectedMood);
+
+    // 渲染结果
+    renderResults(dream,content);
+
+    // 保存到日记
+    addJournalEntry(dream,{
+      traditional: '',
+      psychological: '',
+      life: ''
+    }, selectedMood, content);
+
+    // 更新次数
+    incrementTodayCount();
+    updateRemainCount();
+
+    // 显示结果
+    showSection(sectionResults);
+
+  } catch(err){
+    showToast('解读失败：' + err.message);
+    showSection(sectionHero);
+  } finally {
+    btnInterpret.disabled = false;
+  }
+});
+
+// —— 分享 ——
+document.getElementById('btnShare').addEventListener('click',function(){
+  if(!lastInterpretation) return;
+  var text = '🌙 我的梦境解读\n\n' +
+    '「'+ (lastDreamText.length>60?lastDreamText.slice(0,60)+'…':lastDreamText) +'」\n\n' +
+    lastInterpretation.slice(0,200) + '…\n\n' +
+    '—— AI 解梦（免费体验：你的网址）';
+
+  if(navigator.share){
+    navigator.share({title:'我的梦境解读',text:text}).catch(function(){});
+  } else {
+    copyToClipboard(text);
+    showToast('解读已复制到剪贴板，去分享吧 ✨');
+  }
+});
+
+document.getElementById('btnCopy').addEventListener('click',function(){
+  if(!lastInterpretation) return;
+  var text = '🌙 我的梦境解读\n\n「'+lastDreamText+'」\n\n'+lastInterpretation;
+  copyToClipboard(text);
+  showToast('已复制到剪贴板 📋');
+});
+
+function copyToClipboard(text){
+  if(navigator.clipboard && navigator.clipboard.writeText){
+    navigator.clipboard.writeText(text).catch(function(){fallbackCopy(text)});
+  } else { fallbackCopy(text); }
+}
+function fallbackCopy(text){
+  var ta = document.createElement('textarea');
+  ta.value = text;ta.style.position='fixed';ta.style.opacity='0';
+  document.body.appendChild(ta);ta.select();
+  try{document.execCommand('copy')}catch(e){}
+  document.body.removeChild(ta);
+}
+
+// —— 再解一个 ——
+document.getElementById('btnNewDream').addEventListener('click',function(){
+  dreamInput.value = '';
+  charCount.textContent = '0';
+  selectedMood = '';
+  document.querySelectorAll('.mood-chip').forEach(function(c){c.classList.remove('selected')});
+  showSection(sectionHero);
+});
+
+// —— 日记入口 ——
+document.getElementById('linkToJournal').addEventListener('click',function(e){
+  e.preventDefault();renderJournal();showSection(sectionJournal);
+});
+document.getElementById('linkToJournal2').addEventListener('click',function(e){
+  e.preventDefault();renderJournal();showSection(sectionJournal);
+});
+document.getElementById('btnBackToHero').addEventListener('click',function(){
+  showSection(sectionHero);
+});
+
+// —— 渲染日记 ——
+function renderJournal(){
+  var journal = getJournal();
+  // 更新统计
+  document.getElementById('statTotal').textContent = journal.length;
+  var now = new Date();
+  var thisMonth = journal.filter(function(e){
+    var d = new Date(e.date);
+    return d.getFullYear()===now.getFullYear() && d.getMonth()===now.getMonth();
+  });
+  document.getElementById('statMonth').textContent = thisMonth.length;
+
+  // 最常见情绪
+  var moodCounts = {};
+  journal.forEach(function(e){
+    if(e.mood){moodCounts[e.mood]=(moodCounts[e.mood]||0)+1}
+  });
+  var topMood = '—';
+  var topCount = 0;
+  Object.keys(moodCounts).forEach(function(m){
+    if(moodCounts[m]>topCount){topCount=moodCounts[m];topMood=m;}
+  });
+  document.getElementById('statTopMood').textContent = topMood;
+
+  // 列表
+  if(journal.length === 0){
+    journalList.innerHTML = '';
+    journalEmpty.style.display = 'block';
+  } else {
+    journalEmpty.style.display = 'none';
+    var html = '';
+    journal.forEach(function(entry){
+      var date = new Date(entry.date);
+      var dateStr = date.getFullYear()+'年'+(date.getMonth()+1)+'月'+date.getDate()+'日 '+
+        String(date.getHours()).padStart(2,'0')+':'+String(date.getMinutes()).padStart(2,'0');
+      var preview = entry.dream.length > 80 ? entry.dream.slice(0,80)+'…' : entry.dream;
+      var moodBadge = entry.mood ? '<span class="je-mood">'+entry.mood+'</span>' : '';
+      html += '<div class="journal-entry" data-id="'+entry.id+'">' +
+        '<div class="je-date">'+dateStr+'</div>' +
+        '<div class="je-preview">'+escapeHtml(preview)+'</div>' +
+        moodBadge +
+      '</div>';
+    });
+    journalList.innerHTML = html;
+
+    // 点击查看详情
+    journalList.querySelectorAll('.journal-entry').forEach(function(el){
+      el.addEventListener('click',function(){
+        var id = parseInt(this.dataset.id);
+        var entry = journal.find(function(e){return e.id===id});
+        if(entry){ showJournalDetail(entry); }
+      });
+    });
+  }
+}
+
+// —— 日记详情弹窗 ——
+function showJournalDetail(entry){
+  var date = new Date(entry.date);
+  var dateStr = date.getFullYear()+'年'+(date.getMonth()+1)+'月'+date.getDate()+'日 '+
+    String(date.getHours()).padStart(2,'0')+':'+String(date.getMinutes()).padStart(2,'0');
+
+  var sections = parseInterpretation(entry.fullContent || '');
+  if(sections.length === 0){
+    sections = [{title:'梦境解读', body:entry.fullContent||'暂无内容'}];
+  }
+
+  var html = '<div style="margin-bottom:20px">' +
+    '<h3 style="font-family:var(--font-serif);margin-bottom:4px">梦境详情</h3>' +
+    '<p style="font-size:13px;color:var(--text-muted)">'+dateStr;
+  if(entry.mood){ html += ' · 情绪：'+entry.mood; }
+  html += '</p>' +
+    '<p style="margin-top:12px;padding:14px;background:var(--bg-elevated);border-radius:8px;font-size:14px;color:var(--text-secondary)">' +
+    '「'+escapeHtml(entry.dream)+'」</p>' +
+    '</div>';
+
+  for(var i=0;i<sections.length;i++){
+    var sec = sections[i];
+    var icon = '';
+    if(sec.title.indexOf('传统')>=0) icon = '🔮';
+    else if(sec.title.indexOf('心理')>=0) icon = '🧠';
+    else if(sec.title.indexOf('生活')>=0) icon = '💡';
+    else icon = '✨';
+    html += '<div class="interpret-card" style="margin-bottom:14px">' +
+      '<div class="ic-icon" style="font-size:22px">'+icon+'</div>' +
+      '<div class="ic-title" style="font-size:16px">'+escapeHtml(sec.title)+'</div>' +
+      '<div class="ic-body">'+formatContent(sec.body)+'</div>' +
+    '</div>';
+  }
+
+  modalContent.innerHTML = html +
+    '<button class="btn btn-ghost btn-full" onclick="document.getElementById(\'modalBackdrop\').classList.remove(\'active\')" style="margin-top:12px">关闭</button>';
+
+  modalBackdrop.classList.add('active');
+}
+
+modalBackdrop.addEventListener('click',function(e){
+  if(e.target === modalBackdrop){modalBackdrop.classList.remove('active')}
+});
+
+// —— 键盘支持 ——
+document.addEventListener('keydown',function(e){
+  // Ctrl+Enter 提交解梦
+  if((e.ctrlKey||e.metaKey) && e.key === 'Enter'){
+    if(sectionHero.classList.contains('active')){
+      e.preventDefault();
+      btnInterpret.click();
+    }
+  }
+  // ESC 关闭弹窗
+  if(e.key === 'Escape'){
+    modalBackdrop.classList.remove('active');
+  }
+});
+</script>
+
+</body>
+</html>
