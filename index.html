@@ -536,7 +536,7 @@ h2{font-size:clamp(1.5rem,4vw,2rem)}
 // ============================================
 
 // —— 配置 ——
-const DEEPSEEK_API_KEY = 'sk-bdd5544cb49442f8a44cb759a9d1156e';
+const DEEPSEEK_API_KEY = ''; // 服务已暂停
 const DEEPSEEK_API_URL = 'https://api.deepseek.com/v1/chat/completions';
 const MAX_FREE_PER_DAY = 2;
 const MAX_JOURNAL_FREE = 3;
@@ -833,8 +833,8 @@ function formatContent(text){
 
 // —— 调用 DeepSeek API（直连） ——
 async function interpretDream(dream,mood){
-  if(DEEPSEEK_API_KEY === 'YOUR_DEEPSEEK_API_KEY'){
-    throw new Error('请先在代码中设置你的 DeepSeek API Key');
+  if(!DEEPSEEK_API_KEY){
+    throw new Error('服务暂时关闭，请稍后再来 🌙');
   }
 
   var userMessage = dream;
